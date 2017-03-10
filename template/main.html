@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">  
+	<meta name="viewport" content="width=device-width">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>FastCallBook</title>
+	<meta property="og:title" content="FastCallBook"/>
+	<meta property="og:description" content="Справочник номеров телефонов"/>
+	<meta property="og:image" content="http://callbook.rf.gd/image/phone.png"/>
+	<meta property="og:site_name" content="FastCallBook"/>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<!-- Menu -->
+			      <ul class="nav navbar-nav c-menu">
+			        <li class="dropdown">
+			          <a href="#" class="dropdown-toggle logo" data-toggle="dropdown">FastCallBook <span class="glyphicon glyphicon-menu-hamburger pull-right"></span></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="/">Главная  <span class="badge pull-right" style="margin-right: -5px;" title="Количесво контактов" id="count_contacts">0</span></a></li>
+			            <li class="divider"></li>
+			            <li><a href="#add" id="add_contact_button">Добавить контакт <span class="glyphicon glyphicon-plus pull-right"></span></a></li>
+			            <li class="divider"></li>
+			            <li><a href="#export" id="export_button">Экспорт <span class="glyphicon glyphicon-cloud-download pull-right"></span></a></li>
+			          </ul>
+			        </li>
+			      </ul>
+				<!-- Search Input -->
+				<div id="custom-search-input" style="margin-top: 100px;">
+					<div class="input-group col-md-12">
+						<input type="text" class="form-control input-lg search_text" placeholder="Введите номер/имя/фaмилию..." autofocus />
+						<span class="input-group-btn">
+							<button class="btn btn-info btn-lg search_button" type="button"> 
+								<i class="glyphicon glyphicon-search"></i>
+							</button>
+						</span>
+					</div>
+				</div>
+				<!-- Result -->
+				<div id="result" style="margin-top: 20px;margin-top: 10px;"></div>
+				<!-- Add contact -->
+				<form id="add_contact" style="display: none;margin-top: 100px;">
+					<legend>Добавить контакт 
+					<span class="glyphicon glyphicon glyphicon-remove pull-right close_form close_button" title="Закрыть"></span></legend>
+					<label>Номер тел.:</label>
+					<input type="phone" name="phone" class="form-control input" id="phone" placeholder="+38(000)00-00-00" required="required">
+					<label>Ссылка ВК:</label>
+					<input type="url" name="url" id="url_vk" class="form-control input" placeholder="https://vk.com/durov" required="required">				
+					<br>
+					<button class="btn center-block text-center" id="Send_Form">Отправить</button>
+					<div class="response_server"></div>
+				</form>
+				<div id="export_contact" style="display: none;margin-top: 100px;">
+					<legend>Экспорт контактов 
+						<span class="glyphicon glyphicon glyphicon-remove pull-right close_export close_button" title="Закрыть">
+						</span>
+					</legend>
+					<p>Функция в стадии доработки</p>
+				</div>
+			</div>
+		</div>
+	</div>
+<div class="templates"></div>
+</body>
+<script src="../js/jquery-3.1.1.min.js" ></script>
+<script src="../js/jquery.maskedinput.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/mustache.min.js" ></script>
+<script src="https://vk.com/js/api/openapi.js?136"></script>
+<script src="../js/app.js"></script>
+</html>
