@@ -42,23 +42,11 @@ $app->get('/api/', function() use ($app){
 $app->post('/api/search', function() use ($app){
 			$app->response->headers->set('Content-Type', 'application/json');
 			$db = new SafeMySQL();
-
 			$ext = new Ext();
-			$data = $ext->clear($data);
-
-			$q = $app->request()->post('q');
-			$gender = $app->request()->post('gender');
+			$q = $app->request()->post('q');	
+			$q = $ext->clear($q);
 			try {
-				if ($gender == 0) {
-					$data = $db->getAll('SELECT vk_id, name, sname, gender, number_phone FROM people WHERE name LIKE  "%"?s"%" OR sname LIKE  "%"?s"%" OR number_phone LIKE  "%"?s"%"LIMIT 0, 9', $q, $q, $q);
-				}elseif ($gender == 1) {
-					$data = $db->getAll('SELECT vk_id, name, sname, gender, number_phone FROM people WHERE gender = 1 AND name LIKE  "%"?s"%" OR sname LIKE  "%"?s"%" OR number_phone LIKE  "%"?s"%"LIMIT 0, 9', $q, $q, $q);
-				}elseif ($gender == 2) {
-					$data = $db->getAll('SELECT vk_id, name, sname, gender, number_phone FROM people WHERE gender = 2 AND name LIKE  "%"?s"%" OR sname LIKE  "%"?s"%" OR number_phone LIKE  "%"?s"%"LIMIT 0, 9', $q, $q, $q);
-				}else{
-					$data = false;
-				}
-
+				$data = $db->getAll('SELECT vk_id, name, sname, gender, number_phone FROM people WHERE name LIKE  "%"?s"%" OR sname LIKE  "%"?s"%" OR number_phone LIKE  "%"?s"%"LIMIT 0, 9', $q, $q, $q);
 				if ($data == false) {
 					$result = ['count' => 0];
 					echo json_encode($result);
@@ -121,7 +109,7 @@ $app->post('/api/add', function() use ($app){
 				$vk = new VK\VK(5107104, 'QpCJUof1hG9WUjPwcSdt');
 				$user = $vk->api('users.get', array(
 					'user_ids' 	=> 	$url,
-					'fields' 	=>	'photo_100,photo_200,sex,bdate',
+					'fields' 	=>	'sex,bdate',
 					'v'			=>	'5.8',
 					'lang'		=> 0));
 				$id = $user['response'][0]['id'];
@@ -129,27 +117,9 @@ $app->post('/api/add', function() use ($app){
 				$sname = $user['response'][0]['last_name'];
 				$gender = $user['response'][0]['sex'];
 				$bdate = $user['response'][0]['bdate'];
-				$photo_100 = $user['response'][0]['photo_100'];
-				$photo_200 = $user['response'][0]['photo_200'];
 					try {
-						function add_contact($id, $name, $sname, $number, $gender, $bdate) {
-							$db = new SafeMySQL();
-							$data = $db->query('INSERT INTO people (name, sname, vk_id, number_phone, gender, date_add, date_update, time_update, url_img_100, url_img_200, bdate) VALUES (?s, ?s, ?s, ?s, ?s, ?s, ?s, ?s, ?s, ?s, ?s)', $name, $sname, $id, $number, $gender, date('Y-m-d') , date('Y-m-d'), date('G:i:s'),'data/photos_users/100/'.$id.'.jpg','data/photos_users/200/'.$id.'.jpg', $bdate);
-						}
-						add_contact($id, $name, $sname, $number, $gender, $bdate);
-						function update_photo_by_id($id) {
-							$vk = new VK\VK(5107104, 'QpCJUof1hG9WUjPwcSdt');
-								$photo = $vk->api('users.get', array(
-									'user_ids' 	=> 	$id,
-									'fields' 	=>	'photo_100,photo_200',
-									'v'			=>	'5.8'));
-							//Загружаемо URL картинок
-							$photo_100 = $photo['response'][0]['photo_100'];
-							$photo_200 = $photo['response'][0]['photo_200'];
-							//Копируем с заменой
-							copy($photo_100, 'data/photos_users/100/'.$id.'.jpg');
-							copy($photo_200, 'data/photos_users/200/'.$id.'.jpg');
-						}
+						$db = new SafeMySQL();
+						$data = $db->query('INSERT INTO people (name, sname, vk_id, number_phone, gender, date_add, date_update, time_update, bdate) VALUES (?s, ?s, ?s, ?s, ?s, ?s, ?s, ?s, ?s)', $name, $sname, $id, $number, $gender, date('Y-m-d') , date('Y-m-d'), date('G:i:s'), $bdate);
 					}
 					catch (Exception $e) {
 					//Если ошибка - выводим хуйня
