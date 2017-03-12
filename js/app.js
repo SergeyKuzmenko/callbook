@@ -15,6 +15,7 @@ $('form').submit(function() {
 
 // Поиск
 $(function() {
+  //Реагировать на нажатие кнопки "Enter"
 	$('.search_text').keydown(function(e) {
 		if(e.keyCode === 13) {
 			var query = $('.search_text').val();
@@ -80,22 +81,6 @@ function rednerNotFoundTemplate(){
   	$('#result').css('display', '');
 }
 
-function rednerAddNewNumberTemplate(data){
-	var template = $('#AddNewNumberTemplate').html();
-	Mustache.parse(template);  
-  	var rendered = Mustache.render(template, data);
-  	$('#result').html(rendered);
-  	$('#result').css('display', '');
-}
-
-function rednerAddNewNumberErrorTemplate(){
-	var template = $('#AddNewNumberErrorTemplate').html();
-	Mustache.parse(template);  
-  	var rendered = Mustache.render(template);
-  	$('#result').html(rendered);
-  	$('#result').css('display', '');
-}
-
 // Обновление щетчика количества контактов
 function update_count_contact() {
 	$.ajax({
@@ -125,16 +110,14 @@ $("form").on( "submit", function(event) {
         },
         success: function(data) {
         	if (data.status == 0) {
-        		rednerAddNewNumberErrorTemplate();
-           		console.log('Internal Error');
+        		  $("#Send_Form").notify("Внутренняя ошибка", "error");
+              $("#url_vk").notify("Проверьте правильность ссылки", "warn");
            	}
            	if(data.status == 1){
-           		rednerNotFoundTemplate();
-				$('.error_show').text('Номер найден в базе');
-           		console.log('Number Found');
+              $("#phone").notify("Номер уже есть в базе", "warn");
            	}
            	if(data.status == 2){
-				console.log('OK!');
+              $("#phone").notify("Успешно добавлен", "success");
            	}
 
            	$('#add_contact').css('opacity', '1');
