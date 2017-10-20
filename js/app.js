@@ -20,20 +20,17 @@ $(function() {
 		if(e.keyCode === 13) {
 			var query = $('.search_text').val();
 			search(query);
-			load_photo();
 		}
 	});
 	
 	$('.search_button').click(function(){
 		var query = $('.search_text').val();
 		search(query);
-		load_photo();
 	});
 
 	$('.search_text').bind("input", function() {
         var query = $('.search_text').val();
 		search(query);
-		load_photo();
     });
 })
 
@@ -166,45 +163,4 @@ $(function(){
         $('#contact-list').css('display', '');
     });
 })
-
-VK.init({
-    apiId: 4746140
-});
-
-function load_photo() {
-    id = {};
-    $('.vk_id').each(function(e, i) {
-        id[e] = $(this).val();
-    });
-    id = objToString (id);
-	id = id.slice(0,-1);
-    GetPhotoById(id);
-}
-
-function objToString (obj) {
-    var str = '';
-    for (var p in obj) {
-        if (obj.hasOwnProperty(p)) {
-            str += obj[p] + ',';
-        }
-    }
-    return str;
-}
-
-function GetPhotoById(id){
-    VK.Api.call('users.get', {user_ids: id, fields: 'photo_100'}, function(r) {
-          if(r.response) {
-			for (var key in r.response) {
-				RefreshPhoto(r.response[key].uid, r.response[key].photo_100);
-				console.log(r.response[key].uid +': '+ r.response[key].photo_100);
-			}
-        }else{
-            console.log('Error: '+r.error.error_msg);
-        }
-    });
-}
-
-function RefreshPhoto(id, imgUrl) {
-	$('.id_'+id).attr('src', imgUrl +'?'+ Math.random());
-}
 

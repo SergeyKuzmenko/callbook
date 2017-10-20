@@ -158,3 +158,29 @@ $app->get('/api/getAllContacts.json', function() use ($app){
         }
     }
 );
+
+$app->get('/api/getPic/:id', function($id) use ($app){
+		$app->response->headers->set('Content-Type', 'image/jpeg'); //image/jpeg
+		if (file_exists(FOLDER_USER_PIC.(int)$id.'.jpg')) {
+			$pic = readfile(FOLDER_USER_PIC.(int)$id.'.jpg');
+			echo $pic;
+		}else{
+			try {
+				$vk = new VK\VK(5107104, 'QpCJUof1hG9WUjPwcSdt');
+				$user = $vk->api('users.get', array(
+					'user_ids' 	=> 	(int)$id,
+					'fields' 	=>	'photo_100',
+					'v'			=>	'5.8',
+					'lang'		=> 0));
+				$photo = $user['response'][0]['photo_100'];
+				copy($photo, FOLDER_USER_PIC.(int)$id.'.jpg');
+				$pic = readfile(FOLDER_USER_PIC.(int)$id.'.jpg');
+				echo $pic;
+				}
+				catch (Exception $e) {
+					$pic = readfile(FOLDER_IMAGES.'avatar_icon.png');
+					echo $pic;
+				}
+		}
+    }
+);
