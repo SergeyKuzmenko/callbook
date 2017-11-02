@@ -7,13 +7,14 @@
 	<title>FastCallBook</title>
 	<meta property="og:title" content="FastCallBook"/>
 	<meta property="og:description" content="Справочник номеров телефонов"/>
-	<meta property="og:image" content="http://callbook.rf.gd/image/phone.png"/>
+	<meta property="og:image" content="http://callbook.rf.gd/image/phone.png" async/>
 	<meta property="og:site_name" content="FastCallBook"/>
-	<link rel="icon" type="image/x-icon" href="../image/favicon.png">
-	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<link rel="icon" type="image/x-icon" href="../image/favicon.png" async>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" async>
+	<link rel="stylesheet" type="text/css" href="../css/style.css" async>
 </head>
 <body>
+	<div id="preloader"></div>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
@@ -68,10 +69,21 @@
 		</div>
 	</div>
 </body>
-<script src="../js/jquery-3.1.1.min.js" ></script>
-<script src="../js/jquery.maskedinput.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/mustache.min.js" ></script>
-<script src="../js/notify.js" ></script>
-<script src="../js/app.js"></script>
+<script>
+	;(function(){var preloaderDiv=document.createElement('div');preloaderDiv.innerHTML=`
+		<style>
+            #preloader_preload {display: block;z-index: 99999;height: 100vh;background: url('../image/processing.gif') center center no-repeat;background-color: #ffffff;position: fixed;top: 0;width: 100%;left: 0;}
+            body.preloader {overflow: hidden;height: 100vh;}
+        </style>
+        <div id="preloader"><div id="preloader_preload"></div></div>
+	`;document.body.insertBefore(preloaderDiv,document.body.firstChild);var preloaderStart=document.getElementById("preloader_preload");document.body.classList.add('preloader');function fadeOutFunction(el){el.style.opacity=1;var preloaderEngine=setInterval(function(){document.body.classList.remove('preloader');el.style.opacity=el.style.opacity-0.05;if(el.style.opacity<=0.05){clearInterval(preloaderEngine);preloaderStart.style.display="none";}},20);}
+window.onload=function(){setTimeout(function(){fadeOutFunction(preloaderStart);},1000);};})();
+</script>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/jquery.maskedinput.min.js" async></script>
+<script src="../js/bootstrap.min.js" async></script>
+<script src="../js/mustache.min.js"></script>
+<script src="../js/notify.js" async></script>
+<script src="../js/app.js" async></script>
 </html>
+

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Вход – Телефонная книга</title>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+    <style type="text/css" media="screen">
+	a,
+	a:focus,
+	a:hover {
+	  color: #fff;
+	}
+	.btn-default,
+	.btn-default:hover,
+	.btn-default:focus {
+	  color: #333;
+	  text-shadow: none;
+	  background-color: #fff;
+	  border: 1px solid #fff;
+	}
+	html,
+	body {
+	  height: 100%;
+	  background-color: #333;
+	}
+	body {
+	  color: #fff;
+	  text-align: center;
+	  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+	  box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+	}
+	.site-wrapper {
+	  display: table;
+	  width: 100%;
+	  height: 100%;
+	  min-height: 100%;
+	}
+	.site-wrapper-inner {
+	  display: table-cell;
+	  vertical-align: top;
+	}
+	.cover-container {
+	  margin-right: auto;
+	  margin-left: auto;
+	}
+	.inner {
+	  padding: 30px;
+	}
+	.masthead-brand {
+	  margin-top: 10px;
+	  margin-bottom: 10px;
+	}
+	.masthead-nav > li {
+	  display: inline-block;
+	}
+	.masthead-nav > li + li {
+	  margin-left: 20px;
+	}
+	.masthead-nav > li > a {
+	  padding-right: 0;
+	  padding-left: 0;
+	  font-size: 16px;
+	  font-weight: bold;
+	  color: #fff;
+	  color: rgba(255,255,255,.75);
+	  border-bottom: 2px solid transparent;
+	}
+	.masthead-nav > li > a:hover,
+	.masthead-nav > li > a:focus {
+	  background-color: transparent;
+	  border-bottom-color: rgba(255,255,255,.25);
+	}
+	.masthead-nav > .active > a,
+	.masthead-nav > .active > a:hover,
+	.masthead-nav > .active > a:focus {
+	  color: #fff;
+	  border-bottom-color: #fff;
+	}
+	@media (min-width: 768px) {
+	  .masthead-brand {
+	    float: left;
+	  }
+	  .masthead-nav {
+	    float: right;
+	  }
+	}
+	.cover {
+	  padding: 0 20px;
+	}
+	.cover .btn-lg {
+	  padding: 10px 20px;
+	  font-weight: bold;
+	}
+	.mastfoot {
+	  color: #999;
+	  color: rgba(255,255,255,.5);
+	}
+	@media (min-width: 768px) {
+	  .masthead {
+	    position: fixed;
+	    top: 0;
+	  }
+	  .mastfoot {
+	    position: fixed;
+	    bottom: 0;
+	  }
+	  .site-wrapper-inner {
+	    vertical-align: middle;
+	  }
+	  .masthead,
+	  .mastfoot,
+	  .cover-container {
+	    width: 100%;
+	  }
+	}
+	@media (min-width: 992px) {
+	  .masthead,
+	  .mastfoot,
+	  .cover-container {
+	    width: 700px;
+	  }
+	}
+    </style>
+  </head>
+  <body>
+    <div class="site-wrapper">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="inner cover">
+			<label for="password">Вход в панель администратора</label>
+			<input type="password" class="form-control input" id="password" placeholder="Введите пароль" required="required">
+			<br>
+			<button class="btn btn-primary center-block text-center" id="login_button">Войти</button>
+			<div class="response_server"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/notify.js"></script>
+<script>
+	$(function() {
+	    $('#login_button').click(function() {
+	        var password = $('#password').val();
+	        login(password);
+	    });
+
+	    $('#password').keydown(function(e) {
+	        if (e.keyCode === 13) {
+	            var password = $('#password').val();
+		        login(password);
+	        }
+    	});
+	})
+
+	function login(password) {
+		if (password.length >= 3) {
+	        $.ajax({
+	            type: 'post',
+	            url: "/admin/check_password",
+	            data: {
+	                'p': password
+	            },
+	            beforeSend: function() {
+	                //
+	            },
+	            success: function(data) {
+	                if (data.code == 1) {
+	                	setCookie('access_token', data.access_token, 1);
+	                	$("#login_button").notify("Вход выполнен", "success");
+	                	setTimeout(function() {
+	                		location.reload();
+	                	}, 1000);
+	                }
+	                if (data.code == 0) {
+	                	setCookie('access_token', data.access_token, 1);
+	                    $("#login_button").notify("Неверный пароль", "warn");
+	                }
+	            }
+	        })
+	    } else {
+	    	$("#password").notify("Введите не менее трех символов", "warn");
+	    }
+	}
+	function setCookie(name, value, days) {
+		var expires = "";
+		if(days) {
+			var date = new Date();
+			date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+			expires = "; expires=" + date.toGMTString();
+		}
+		document.cookie = name + "=" + value + expires + "; path=/";
+	}
+
+	function getCookie(name) {
+		var matches = document.cookie.match(new RegExp(
+			"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+		));
+		return matches ? decodeURIComponent(matches[1]) : undefined;
+	}
+</script>
+</html>
