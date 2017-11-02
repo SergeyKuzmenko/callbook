@@ -1,6 +1,6 @@
 <?php
 
-define('ADMIN_PASSWORD', '1342');
+define('ADMIN_PASSWORD', '1342');  //Admin password
 
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');

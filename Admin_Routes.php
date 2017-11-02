@@ -38,8 +38,13 @@ $app->group('/admin', function () use ($app) {
         $app->response->headers->set('Content-Type', 'application/json');
         $isAdmin = new Ext();
         $isAdmin = $isAdmin->isAdmin($access_token);
-        $response = ['code' => $isAdmin];
-        echo json_encode($response);
+        if ($isAdmin) {
+        	$response = ['access_token' => $access_token, 'admin' => $isAdmin];
+        		echo json_encode($response);
+        }else{
+        	$response = array('access_token' => 0, 'error' => 'Invalid token');
+            echo json_encode($response);
+        }
     }
     );
 
@@ -58,7 +63,7 @@ $app->group('/admin', function () use ($app) {
                     echo json_encode($response);
                 }
             } catch (Exception $e) {
-                $response = array('error' => 0);
+                $response = array('access_token' => 0, 'error' => $e->getMessage());
                 echo json_encode($response);
             }
         }
