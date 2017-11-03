@@ -1,7 +1,5 @@
-//Обновляем счетчик количества конактов в базе даных
-$(document).ready(update_count_contact());
-//Загружаем шаблоны
 $(document).ready(function() {
+    get_config(); // update count contacts
     $.get('../template/templates.html', function(data) {
         $('.templates').html(data);
     });
@@ -10,13 +8,12 @@ $(document).ready(function() {
         search((window.location.hash).slice(1));
     }
 });
-//Запрет отправки формы после нажатии кнопки "Submit"
+
 $('form').submit(function() {
     return false;
 });
-// Поиск
+
 $(function() {
-    //Реагировать на нажатие кнопки "Enter"
     $('.search_text').keydown(function(e) {
         if (e.keyCode === 13) {
             var query = $('.search_text').val();
@@ -80,12 +77,13 @@ function rednerNotFoundTemplate() {
     $('#result').css('display', '');
 }
 // Обновление щетчика количества контактов
-function update_count_contact() {
+function get_config() {
     $.ajax({
         type: 'get',
-        url: "/api/count_contacts",
+        url: "/api/get_config",
         success: function(data) {
-            $("#count_contacts").text(data.count).fadeIn();
+            $("#count_contacts").text(data.count);
+            $("title").text(data.title);
         }
     })
 }

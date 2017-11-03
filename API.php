@@ -23,13 +23,13 @@ $app->group('/api', function () use ($app) {
     }
     );
 
-    $app->get('/count_contacts', function () use ($app) {
+    $app->get('/get_config', function () use ($app) {
         $app->response->headers->set('Content-Type', 'application/json');
         $db = new SafeMySQL(array('host' => DB_HOST, 'user' => DB_USER, 'pass' => DB_PASSWORD, 'db' => DB_TABLE));
         $count = $db->query('SELECT COUNT(*) FROM people WHERE visibility = 1');
         $count = mysqli_fetch_array($count);
-        $count = array('count' => $count[0]);
-        echo json_encode($count);
+        $data = array('count' => $count[0], 'title' => APP_TITLE);
+        echo json_encode($data);
     }
     );
 
