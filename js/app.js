@@ -121,7 +121,7 @@ $("form").on("submit", function(event) {
     })
 });
 $(function() {
-    $('#add_contact_button').click(function() {
+    $('.add_contact_button').click(function() {
         $('#add_contact').css('display', '');
         $('#custom-search-input').css('display', 'none');
         $('#result').css('display', 'none');
@@ -138,7 +138,7 @@ $(function() {
     });
 })
 $(function() {
-    $('#export_button').click(function() {
+    $('.export_button').click(function() {
         $('#export_contact').css('display', '');
         $('#add_contact').css('display', 'none');
         $('#custom-search-input').css('display', 'none');
