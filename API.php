@@ -49,7 +49,7 @@ $app->group('/api', function () use ($app) {
                 echo json_encode($result);
             }
         } catch (Exception $e) {
-            $response = array('error' => 'Internal error');
+            $response = array('message' => 'Internal error', 'error' => $e->getMessage());
             echo json_encode($response);
         }
     });
