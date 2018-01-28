@@ -7,12 +7,12 @@ $app->group('/api', function () use ($app) {
                 'Hello' => "It's REST API service",
                 'version' => '0.1',
                 ['methods' => [
-                    'count_contacts' => '(GET) Count of contacts in the database',
-                    'search' => '(POST) Result of search in the database of numbers (Parameter: q(string))',
-                    'add' => '(POST) Add number phone in database (Parameters: "phone"(string) and "url"(string) - format "https://vk.com/id123456" )',
-                    'getInfo/:id' => '(GET) Print all informations from contact in json format',
-                    'getPic/:id' => '(GET) Picture a contact (if is)',
-                ],
+                        'count_contacts' => '(GET) Count of contacts in the database',
+                        'search' => '(POST) Result of search in the database of numbers (Parameter: q(string))',
+                        'add' => '(POST) Add number phone in database (Parameters: "phone"(string) and "url"(string) - format "https://vk.com/id123456" )',
+                        'getInfo/:id' => '(GET) Print all informations from contact in json format',
+                        'getPic/:id' => '(GET) Picture a contact (if is)',
+                    ],  
                 ],
             ];
             echo json_encode($context);

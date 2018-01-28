@@ -1,8 +1,5 @@
 $(document).ready(function() {
     get_config(); // update count contacts
-    $.get('../template/templates.html', function(data) {
-        $('.templates').html(data);
-    });
     if (window.location.hash) {
         $('.search_text').val((window.location.hash).slice(1));
         search((window.location.hash).slice(1));
@@ -36,6 +33,7 @@ function search(query) {
         $.ajax({
             type: 'post',
             url: "/api/search",
+            dataType: "json",
             data: {
                 'q': query
             },
@@ -44,6 +42,8 @@ function search(query) {
             },
             success: function(data) {
                 if (data.count != 0) {
+                    count = Object.keys(data.response).length;
+                    $('.count_items').html(count);
                     rednerMainTemplate(data);
                     $('#result').css('opacity', '1');
                 }
@@ -76,11 +76,11 @@ function rednerNotFoundTemplate() {
     $('#result').html(rendered);
     $('#result').css('display', '');
 }
-// Обновление щетчика количества контактов
 function get_config() {
     $.ajax({
         type: 'get',
         url: "/api/get_config",
+        dataType: "json",
         success: function(data) {
             $("#count_contacts").text(data.count);
             $("title").text(data.title);
@@ -90,7 +90,6 @@ function get_config() {
 $(function($) {
     $("#phone").mask("+38(999)99-99-999");
 });
-//Add new contact
 $("form").on("submit", function(event) {
     event.preventDefault();
     var data = $(this).serialize();
@@ -130,27 +129,9 @@ $(function() {
     });
 })
 $(function() {
-    $('.close_form').click(function() {
+    $('.close_button').click(function() {
         $('#add_contact').css('display', 'none');
-        $('#custom-search-input').css('display', '');
-        $('#result').css('display', '');
-        $('#contact-list').css('display', '');
-    });
-})
-$(function() {
-    $('.export_button').click(function() {
-        $('#export_contact').css('display', '');
-        $('#add_contact').css('display', 'none');
-        $('#custom-search-input').css('display', 'none');
+        $('#informations').css('display', 'none');
         $('#result').css('display', 'none');
-        $('#contact-list').css('display', 'none');
-    });
-})
-$(function() {
-    $('.close_export').click(function() {
-        $('#export_contact').css('display', 'none');
-        $('#custom-search-input').css('display', '');
-        $('#result').css('display', '');
-        $('#contact-list').css('display', '');
     });
 })

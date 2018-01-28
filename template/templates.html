@@ -1,47 +1,47 @@
 <script id="NotFoundTemplate" type="x-tmpl-mustache">
     <li class="list-group-item item_not_found" style="margin-top: 10px; text-align: center;">
-		<div class="col-xs-12 col-sm-12">
-			<span class="text-muted error_show"></span>
-		</div>
-		<div class="clearfix"></div>
-	</li>
+        <div class="col-xs-12 col-sm-12">
+            <span class="text-muted error_show"></span>
+        </div>
+        <div class="clearfix"></div>
+    </li>
 </script>
 <script id="MainTemplate2" type="x-tmpl-mustache">
     {{#response}}
-	<li class="list-group-item item" tabindex="{{vk_id}}">
-		<div class="col-xs-12 col-sm-3">
-			<input type="text" value="{{vk_id}}" class="vk_id" hidden>
-			<img
-				src="../api/getPic/{{vk_id}}"
-				alt="{{name}} {{sname}}"
-				class="img-responsive img-circle id_{{vk_id}} user_photo"
-				onclick="window.open('https://vk.com/id{{vk_id}}');"
-			/>
-		</div>
-		<div class="col-xs-12 col-sm-9">
-			<span class="name">{{name}} {{sname}}</span>
-			<br/>
-			<span class="text-muted c-info">{{number_phone}}</span>
-		</div>
-		<div class="clearfix"></div>
-	</li>
+    <li class="list-group-item item" tabindex="{{vk_id}}">
+        <div class="col-xs-12 col-sm-3">
+            <input type="text" value="{{vk_id}}" class="vk_id" hidden>
+            <img
+                src="../api/getPic/{{vk_id}}"
+                alt="{{name}} {{sname}}"
+                class="img-responsive img-circle id_{{vk_id}} user_photo"
+                onclick="window.open('https://vk.com/id{{vk_id}}');"
+            />
+        </div>
+        <div class="col-xs-12 col-sm-9">
+            <span class="name">{{name}} {{sname}}</span>
+            <br/>
+            <span class="text-muted c-info">{{number_phone}}</span>
+        </div>
+        <div class="clearfix"></div>
+    </li>
 {{/response}}
 </script>
 <script id="MainTemplate" type="x-tmpl-mustache">
 <div class="addon">
-	<p>По запросу найденно <kbd id="dataLengthView">0</kbd> номер(ов):</p>
-	<ul>
-		{{#response}}
-		<li class="clearfix">
-			<a href="https://vk.com/id{{vk_id}}" target="_blank">
-				<img class="round" src="../api/getPic/{{vk_id}}">
-				<div class="legend-info">
-					<strong>{{name}} {{sname}}</strong>
-				</a>
-				{{number_phone}}
-			</div>
-		</li>
-		{{/response}}
-	</ul>
+    <p>По запросу найденно <kbd id="dataLengthView">0</kbd> номер(ов):</p>
+    <ul>
+        {{#response}}
+        <li class="clearfix">
+            <a href="https://vk.com/id{{vk_id}}" target="_blank">
+                <img class="round" src="../api/getPic/{{vk_id}}">
+                <div class="legend-info">
+                    <strong>{{name}} {{sname}}</strong>
+                </a>
+                {{number_phone}}
+            </div>
+        </li>
+        {{/response}}
+    </ul>
 </div>
 </script>
