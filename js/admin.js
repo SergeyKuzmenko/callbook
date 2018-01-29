@@ -1,4 +1,4 @@
-$(document).ready(function() {
+﻿$(document).ready(function() {
     query('last_added');
     jQuery(function($){
         $('.table').footable({
@@ -41,6 +41,7 @@ function getCookie(name) {
 function query(method) {
     $.ajax({
         type: 'get',
+        dataType: "json",
         url: "/admin/" + method + "/" + getAccessToken(),
         beforeSend: function() {
             $('#listLastAdded').html('<img src="../image/load.gif">');
