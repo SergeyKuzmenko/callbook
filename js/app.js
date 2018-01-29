@@ -1,8 +1,12 @@
 $(document).ready(function() {
     get_config(); // load configurations
     if (window.location.hash) {
-        $('.search_text').val((window.location.hash).slice(1));
-        search((window.location.hash).slice(1));
+        
+        var toClient = decodeURIComponent((window.location.hash).slice(1)).replace(/_/ig, ' ');
+        var toServer = decodeURIComponent((window.location.hash).slice(1));
+
+        $('.search_text').val(toClient);
+        search(toServer);
     }
 });
 
@@ -27,8 +31,15 @@ $(function() {
     });
 })
 
+function toObject(arr) {
+  var rv = {};
+  for (var i = 0; i < arr.length; ++i)
+    if (arr[i] !== undefined) rv[i] = arr[i];
+  return rv;
+}
+
 function search(query) {
-    location.hash = '#' + query; //create hash
+    location.hash = '#' + query.replace(/ /ig, '_'); //create hash
     if (query.length >= 2) {
         $.ajax({
             type: 'post',
@@ -46,6 +57,7 @@ function search(query) {
                     $('.count_items').html(Object.keys(data.response).length);
                     rednerMainTemplate(data);
                     $('#result').css('opacity', '1');
+                    $("#result").highlight(query);
                 }
                 if (data.count == 0) {
                     rednerNotFoundTemplate();

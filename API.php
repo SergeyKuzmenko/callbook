@@ -37,8 +37,11 @@ $app->group('/api', function () use ($app) {
         $app->response->headers->set('Content-Type', 'application/json');
         $db = new SafeMySQL(array('host' => DB_HOST, 'user' => DB_USER, 'pass' => DB_PASSWORD, 'db' => DB_TABLE));
         $ext = new Ext();
+
         $q = $app->request()->post('q');
         $q = $ext->clear($q);
+        //$q = preg_split("/[\s,]+/", $q);
+
         try {
             $data = $db->getAll('SELECT vk_id, name, sname, gender, number_phone FROM people WHERE name LIKE  "%"?s"%" OR sname LIKE  "%"?s"%" OR number_phone LIKE  "%"?s"%"LIMIT 0, 9', $q, $q, $q);
             if ($data == false) {
