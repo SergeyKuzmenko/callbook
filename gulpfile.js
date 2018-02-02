@@ -21,16 +21,16 @@ var cssfiles = [
 
 gulp.task('styles', function() {
     return gulp.src(cssfiles)
-    	  .pipe(concat('callbook.min.css'))
+    	  .pipe(concat('styles.min.css'))
         .pipe(minifyCSS())
-        .pipe(gulp.dest('css/'));
+        .pipe(gulp.dest('public/css/'));
 });
 
 gulp.task('scripts', function() {
     return gulp.src(jsfiles)
-        .pipe(concat('callbook.min.js'))
+        .pipe(concat('app.min.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('js/'));
+        .pipe(gulp.dest('public/js/'));
 });
 
 gulp.task('default', function() {
