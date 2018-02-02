@@ -1,4 +1,4 @@
-#flipkart-navbar {
+﻿#flipkart-navbar {
     background-color: #2874f0;
     color: #fff
 }
@@ -328,3 +328,7 @@ strong {
 .close_button{
 	cursor: pointer;
 }
+
+.highlight {
+      background-color: #FFFF88;
+    }

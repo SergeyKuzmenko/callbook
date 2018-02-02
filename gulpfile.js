@@ -1,4 +1,4 @@
-var gulp = require('gulp'),
+﻿var gulp = require('gulp'),
   concat = require('gulp-concat'),
   uglify = require('gulp-uglify'),
   minifyCSS = require('gulp-minify-css');
@@ -10,7 +10,7 @@ var jsfiles = [
   "js/bootstrap.min.js",
   "js/mustache.min.js",
   "js/notify.min.js",
-  "js/highlight.min.js",
+  "js/jquery.highlight.js",
   "js/app.js"
 ];
 
