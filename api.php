@@ -45,14 +45,14 @@ $app->group('/api', function () use ($app) {
         if ($typeQuery == 'integer') { //Type == integer
 
             try {
-                $data = $db->getAll('   SELECT vk_id, name, sname, gender, number_phone 
+                $data = $db->getAll('SELECT vk_id, name, sname, gender, number_phone 
                     FROM people 
                     WHERE number_phone LIKE "%"?s"%" 
                     LIMIT 0, 9', $keywords
                 );
 
                 if ($data == false) {
-                    $result = ['count' => 0, 'type' => $typeQuery, 'keywords' => $keywords,];
+                    $result = ['count' => 0, 'type' => $typeQuery, 'keywords' => $keywords];
                     echo json_encode($result);
                 } else {
                     $result = ['response' => $data];
@@ -63,16 +63,22 @@ $app->group('/api', function () use ($app) {
                 echo json_encode($response);
             }
         }else{  //Type == string
-            $search = str_replace(" ","|", $keywords);
+            $keywords = explode(" ", $keywords);
+            if ($keywords[1] == null) {
+               $keywords[1] = $keywords[0];
+            }
             try {
-                $data = $db->getAll('   SELECT vk_id, name, sname, gender, number_phone 
+                $data = $db->getAll('SELECT vk_id, name, sname, gender, number_phone 
                     FROM people 
-                    WHERE name LIKE "%"?s"%"
-                    OR sname LIKE "%"?s"%"
-                    LIMIT 0, 9', $search, $search);
+                    WHERE (name LIKE "%"?s"%")
+                    OR (sname LIKE "%"?s"%")
+                    OR (sname LIKE "%"?s"%")
+                    OR (name LIKE "%"?s"%" AND sname LIKE "%"?s"%")
+                    OR (name LIKE "%"?s"%" AND sname LIKE "%"?s"%")
+                    LIMIT 0, 9', $keywords[0], $keywords[0], $keywords[0], $keywords[0], $keywords[1], $keywords[1], $keywords[0]);
 
                 if ($data == false) {
-                    $result = ['count' => 0, 'type' => $typeQuery, 'keywords' => $keywords,];
+                    $result = ['count' => 0, 'type' => $typeQuery, 'keywords' => $keywords];
                     echo json_encode($result);
                 } else {
                     $result = ['response' => $data];
