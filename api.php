@@ -7,21 +7,21 @@ $app->group('/api', function () use ($app) {
                 'Hello' => "It's REST API service",
                 'version' => '0.1',
                 ['methods' => [
-                        'count_contacts' => '(GET) Count of contacts in the database',
-                        'search' => '(POST) Result of search in the database of numbers (Parameter: q(string))',
-                        'add' => '(POST) Add number phone in database (Parameters: "phone"(string) and "url"(string) - format "https://vk.com/id123456" )',
-                        'getInfo/:id' => '(GET) Print all informations from contact in json format',
-                        'getPic/:id' => '(GET) Picture a contact (if is)',
-                    ],  
-                ],
-            ];
-            echo json_encode($context);
-        } catch (Exception $e) {
+                    'count_contacts' => '(GET) Count of contacts in the database',
+                    'search' => '(POST) Result of search in the database of numbers (Parameter: q(string))',
+                    'add' => '(POST) Add number phone in database (Parameters: "phone"(string) and "url"(string) - format "https://vk.com/id123456" )',
+                    'getInfo/:id' => '(GET) Print all informations from contact in json format',
+                    'getPic/:id' => '(GET) Picture a contact (if is)',
+                ],  
+            ],
+        ];
+        echo json_encode($context);
+    } catch (Exception $e) {
             //
-        }
-
     }
-    );
+
+}
+);
 
     $app->get('/get_config', function () use ($app) {
         $app->response->headers->set('Content-Type', 'application/json');
@@ -31,7 +31,7 @@ $app->group('/api', function () use ($app) {
         $data = array('count' => $count[0], 'title' => APP_TITLE);
         echo json_encode($data);
     }
-    );
+);
 
     $app->post('/search', function () use ($app) {
         $app->response->headers->set('Content-Type', 'application/json');
@@ -44,45 +44,44 @@ $app->group('/api', function () use ($app) {
 
         if ($typeQuery == 'integer') { //Type == integer
 
-        	try {
-        		$app->response->headers->set('Content-Type', 'application/json');
-	            $data = $db->getAll('	SELECT vk_id, name, sname, gender, number_phone 
-	            						FROM people 
-	            						WHERE number_phone LIKE "%"?s"%" 
-	            						LIMIT 0, 9', $keywords
-	            					);
+            try {
+                $data = $db->getAll('   SELECT vk_id, name, sname, gender, number_phone 
+                    FROM people 
+                    WHERE number_phone LIKE "%"?s"%" 
+                    LIMIT 0, 9', $keywords
+                );
 
-	            if ($data == false) {
-	                $result = ['count' => 0, 'type' => $typeQuery, 'keywords' => $keywords,];
-	                echo json_encode($result);
-	            } else {
-	                $result = ['response' => $data];
-	                echo json_encode($result);
-	            }
-	        } catch (Exception $e) {
-	            $response = array('type' => $typeQuery, 'keywords' => $keywords, 'message' => 'Internal error', 'error' => $e->getMessage());
-	            echo json_encode($response);
-	        }
-        }else{	//Type == string
-        	$search = str_replace(" ","|", $keywords);
-        	try {
-	            $data = $db->getAll('	SELECT vk_id, name, sname, gender, number_phone 
-	            						FROM people 
-	            						WHERE name LIKE "%"?s"%"
-	            							OR sname LIKE "%"?s"%"
-	            						LIMIT 0, 9', $search, $search);
+                if ($data == false) {
+                    $result = ['count' => 0, 'type' => $typeQuery, 'keywords' => $keywords,];
+                    echo json_encode($result);
+                } else {
+                    $result = ['response' => $data];
+                    echo json_encode($result);
+                }
+            } catch (Exception $e) {
+                $response = array('type' => $typeQuery, 'keywords' => $keywords, 'message' => 'Internal error', 'error' => $e->getMessage());
+                echo json_encode($response);
+            }
+        }else{  //Type == string
+            $search = str_replace(" ","|", $keywords);
+            try {
+                $data = $db->getAll('   SELECT vk_id, name, sname, gender, number_phone 
+                    FROM people 
+                    WHERE name LIKE "%"?s"%"
+                    OR sname LIKE "%"?s"%"
+                    LIMIT 0, 9', $search, $search);
 
-	            if ($data == false) {
-	                $result = ['count' => 0, 'type' => $typeQuery, 'keywords' => $keywords,];
-	                echo json_encode($result);
-	            } else {
-	                $result = ['response' => $data];
-	                echo json_encode($result);
-	            }
-        	} catch (Exception $e) {
-	            $response = array('type' => $typeQuery, 'keywords' => $keywords, 'message' => 'Internal error', 'error' => $e->getMessage());
-	            echo json_encode($response);
-        	}
+                if ($data == false) {
+                    $result = ['count' => 0, 'type' => $typeQuery, 'keywords' => $keywords,];
+                    echo json_encode($result);
+                } else {
+                    $result = ['response' => $data];
+                    echo json_encode($result);
+                }
+            } catch (Exception $e) {
+                $response = array('type' => $typeQuery, 'keywords' => $keywords, 'message' => 'Internal error', 'error' => $e->getMessage());
+                echo json_encode($response);
+            }
         }
     });
 
@@ -138,7 +137,7 @@ $app->group('/api', function () use ($app) {
             //catch
         }
     }
-    );
+);
 
     $app->get('/getInfo/:id', function ($id) use ($app) {
         $app->response->headers->set('Content-Type', 'application/json');
@@ -157,7 +156,7 @@ $app->group('/api', function () use ($app) {
         }
 
     }
-    );
+);
 
     $app->get('/getInfo/all.json', function () use ($app) {
         $app->response->headers->set('Content-Type', 'application/json');
@@ -176,7 +175,7 @@ $app->group('/api', function () use ($app) {
             echo json_encode($response);
         }
     }
-    );
+);
 
     $app->get('/getPic/:id', function ($id) use ($app) {
         $app->response->headers->set('Content-Type', 'image/jpeg'); //image/jpeg
@@ -226,5 +225,5 @@ $app->group('/api', function () use ($app) {
             }
         }
     }
-    );
+);
 });
