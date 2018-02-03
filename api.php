@@ -67,7 +67,7 @@ $app->group('/api', function () use ($app) {
             if ($keywords[1] == null) {
                $keywords[1] = $keywords[0];
             }
-            try {
+            try { // oh shit...
                 $data = $db->getAll('SELECT vk_id, name, sname, gender, number_phone 
                     FROM people 
                     WHERE (name LIKE "%"?s"%")
