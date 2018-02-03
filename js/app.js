@@ -40,13 +40,19 @@ function toObject(arr) {
 
 function search(query) {
     location.hash = '#' + query.replace(/ /ig, '_'); //create hash
+    if ($.isNumeric(query)) {
+        type = 'integer'
+    }else {
+        type = 'string'
+    }
     if (query.length >= 2) {
         $.ajax({
             type: 'post',
             url: "/api/search",
             dataType: "json",
             data: {
-                'q': query
+                'q': query,
+                'type': type
             },
             beforeSend: function() {
                 $('#result').css('opacity', '0.5');
@@ -54,7 +60,6 @@ function search(query) {
             },
             success: function(data) {
                 if (data.count != 0) {
-                    $('.count_items').html(Object.keys(data.response).length);
                     rednerMainTemplate(data);
                     $('#result').css('opacity', '1');
                     $("#result").highlight(query);

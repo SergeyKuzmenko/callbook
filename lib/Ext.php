@@ -7,10 +7,10 @@ Class Ext {
 
     //Очистка входных данных
     public function clear($data) {
+        $data = trim($data);
         $data = strip_tags($data);
         $data = str_replace("'", "", $data);
         $data = htmlspecialchars($data);
-        $data = trim($data);
         return $data;
     }
 

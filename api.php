@@ -38,22 +38,51 @@ $app->group('/api', function () use ($app) {
         $db = new SafeMySQL(array('host' => DB_HOST, 'user' => DB_USER, 'pass' => DB_PASSWORD, 'db' => DB_TABLE));
         $ext = new Ext();
 
-        $q = $app->request()->post('q');
-        $q = $ext->clear($q);
-        //$q = preg_split("/[\s,]+/", $q);
+        $keywords = $app->request()->post('q');
+        $typeQuery = $app->request()->post('type');
+        $keywords = $ext->clear($keywords);
 
-        try {
-            $data = $db->getAll('SELECT vk_id, name, sname, gender, number_phone FROM people WHERE name LIKE  "%"?s"%" OR sname LIKE  "%"?s"%" OR number_phone LIKE  "%"?s"%"LIMIT 0, 9', $q, $q, $q);
-            if ($data == false) {
-                $result = ['count' => 0];
-                echo json_encode($result);
-            } else {
-                $result = ['response' => $data];
-                echo json_encode($result);
-            }
-        } catch (Exception $e) {
-            $response = array('message' => 'Internal error', 'error' => $e->getMessage());
-            echo json_encode($response);
+        if ($typeQuery == 'integer') { //Type == integer
+
+        	try {
+        		$app->response->headers->set('Content-Type', 'application/json');
+	            $data = $db->getAll('	SELECT vk_id, name, sname, gender, number_phone 
+	            						FROM people 
+	            						WHERE number_phone LIKE "%"?s"%" 
+	            						LIMIT 0, 9', $keywords
+	            					);
+
+	            if ($data == false) {
+	                $result = ['count' => 0, 'type' => $typeQuery, 'keywords' => $keywords,];
+	                echo json_encode($result);
+	            } else {
+	                $result = ['response' => $data];
+	                echo json_encode($result);
+	            }
+	        } catch (Exception $e) {
+	            $response = array('type' => $typeQuery, 'keywords' => $keywords, 'message' => 'Internal error', 'error' => $e->getMessage());
+	            echo json_encode($response);
+	        }
+        }else{	//Type == string
+        	$search = str_replace(" ","|", $keywords);
+        	try {
+	            $data = $db->getAll('	SELECT vk_id, name, sname, gender, number_phone 
+	            						FROM people 
+	            						WHERE name LIKE "%"?s"%"
+	            							OR sname LIKE "%"?s"%"
+	            						LIMIT 0, 9', $search, $search);
+
+	            if ($data == false) {
+	                $result = ['count' => 0, 'type' => $typeQuery, 'keywords' => $keywords,];
+	                echo json_encode($result);
+	            } else {
+	                $result = ['response' => $data];
+	                echo json_encode($result);
+	            }
+        	} catch (Exception $e) {
+	            $response = array('type' => $typeQuery, 'keywords' => $keywords, 'message' => 'Internal error', 'error' => $e->getMessage());
+	            echo json_encode($response);
+        	}
         }
     });
 
