@@ -1,12 +1,9 @@
 $(document).ready(function() {
     get_config(); // load configurations
     if (window.location.hash) {
-        
-        var toClient = decodeURIComponent((window.location.hash).slice(1)).replace(/_/ig, ' ');
-        var toServer = decodeURIComponent((window.location.hash).slice(1));
-
+        toClient = decodeURIComponent((window.location.hash).slice(1)).replace(/_/ig, ' ');
         $('.search_text').val(toClient);
-        search(toServer);
+        search(toClient);
     }
 });
 
@@ -138,14 +135,6 @@ $("form").on("submit", function(event) {
             $('#add_contact').css('opacity', '1');
         }
     })
-});
-
-$('.add_contact_button').click(function() {
-    $('#add_contact').css('display', '');
-    $('#custom-search-input').css('display', 'none');
-    $('#result').css('display', 'none');
-    $('#contact-list').css('display', 'none');
-    $('#export_contact').css('display', 'none');
 });
 
 $('.add_contact_button').click(function() {

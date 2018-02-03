@@ -52,14 +52,14 @@ $app->group('/api', function () use ($app) {
                 );
 
                 if ($data == false) {
-                    $result = ['count' => 0, 'type' => $typeQuery, 'keywords' => $keywords];
+                    $result = ['keywords' => $keywords];
                     echo json_encode($result);
                 } else {
                     $result = ['response' => $data];
                     echo json_encode($result);
                 }
             } catch (Exception $e) {
-                $response = array('type' => $typeQuery, 'keywords' => $keywords, 'message' => 'Internal error', 'error' => $e->getMessage());
+                $response = array('message' => 'Internal error', 'error' => $e->getMessage());
                 echo json_encode($response);
             }
         }else{  //Type == string
@@ -71,21 +71,22 @@ $app->group('/api', function () use ($app) {
                 $data = $db->getAll('SELECT vk_id, name, sname, gender, number_phone 
                     FROM people 
                     WHERE (name LIKE "%"?s"%")
+                    OR (name LIKE "%"?s"%")
                     OR (sname LIKE "%"?s"%")
                     OR (sname LIKE "%"?s"%")
                     OR (name LIKE "%"?s"%" AND sname LIKE "%"?s"%")
                     OR (name LIKE "%"?s"%" AND sname LIKE "%"?s"%")
-                    LIMIT 0, 9', $keywords[0], $keywords[0], $keywords[0], $keywords[0], $keywords[1], $keywords[1], $keywords[0]);
+                    LIMIT 0, 9', $keywords[0], $keywords[1], $keywords[1], $keywords[0], $keywords[0], $keywords[1], $keywords[1], $keywords[0]);
 
                 if ($data == false) {
-                    $result = ['count' => 0, 'type' => $typeQuery, 'keywords' => $keywords];
+                    $result = ['count' => 0];
                     echo json_encode($result);
                 } else {
                     $result = ['response' => $data];
                     echo json_encode($result);
                 }
             } catch (Exception $e) {
-                $response = array('type' => $typeQuery, 'keywords' => $keywords, 'message' => 'Internal error', 'error' => $e->getMessage());
+                $response = array('message' => 'Internal error', 'error' => $e->getMessage());
                 echo json_encode($response);
             }
         }

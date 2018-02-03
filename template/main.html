@@ -37,7 +37,7 @@
                                 </g>
                             </g>
                         </svg>
-                    Экспортировать контакты</a></li>
+                    Импорт контактов в телефон</a></li>
                     <li class="upper-links">
                       <a class="links informations_button">
                         <svg class="" width="16px" height="12px" style="overflow: visible;">
@@ -77,7 +77,7 @@
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     </div>
     <a href="#" class="add_contact_button" onclick="closeNav()">Добавить номер</a>
-    <a href="#" class="export_button" onclick="closeNav()">Экспортировать контакты</a>
+    <a href="#" class="export_button" onclick="closeNav()">Импорт контактов</a>
     <a href="#" class="informations_button" onclick="closeNav()">Информация</a>
   </div>
   <div class="container" style="margin-top: 20px;">
@@ -97,10 +97,19 @@
           <div class="response_server"></div>
         </form>
         <div id="export_contact" style="display: none;">
-          <legend>Экспорт контактов
+          <legend>Импорт контактов в Android из VCF-файла
             <span class="glyphicon glyphicon glyphicon-remove pull-right" style="cursor: pointer;" onclick="close_window()" title="Закрыть"></span>
           </legend>
-          <p>Функция в разработке</p>
+          <div class="zippy-content" style="margin-top: 0px; transition: margin-top 0.218s ease-out; overflow: auto;">
+    <p>Если вы сохранили контакты в VCF-файле, вы можете импортировать их в свой аккаунт Google.</p>
+
+    <ol>
+      <li>Откройте приложение "Контакты"&nbsp;<img src="//lh3.googleusercontent.com/ii19BY-XTWw25jWnrGm3CR0ufXacP9D6L-UYT_CylBal0gdl1ARZlN5Re70p5nvxjQ=w18-h18" width="18" height="18" alt="контакты" title="контакты">.</li>
+      <li>Выберите Меню&nbsp;<img src="//storage.googleapis.com/support-kms-prod/CD148BFC3EE3B5328DAFE08E2B6AA95B73B7" width="18" height="18" alt="Меню" title="Меню">&nbsp;<img src="//lh3.googleusercontent.com/m8yJftTRbJe4DVNfrruPA9BvjW2cABJvAht7DOLOG7X8UpEhGUijUo_KklXawG14YhE=w13-h18" width="13" height="18" alt="дальше" title="дальше"> <strong>Настройки</strong>&nbsp;<img src="//lh3.googleusercontent.com/m8yJftTRbJe4DVNfrruPA9BvjW2cABJvAht7DOLOG7X8UpEhGUijUo_KklXawG14YhE=w13-h18" width="13" height="18" alt="дальше" title="дальше"> <strong>Импортировать</strong>.</li>
+      <li>Выберите <strong>VCF-файл</strong>. Если на устройстве зарегистрировано несколько аккаунтов, выберите тот из них, в который нужно сохранить контакты.</li>
+      <li>Найдите и выберите VCF-файл, из которого нужно импортировать данные.</li>
+    </ol>
+  </div>
         </div>
         <div id="informations" style="display: none;">
           <legend>Информация
@@ -127,7 +136,7 @@
         <div class="col-xs-12 col-sm-3">
             <input type="text" value="{{vk_id}}" class="vk_id" hidden>
             <img
-                src="../api/getPic/{{vk_id}}"
+                src="../image/avatar_icon.png"
                 alt="{{name}} {{sname}}"
                 class="img-responsive img-circle id_{{vk_id}} user_photo"
                 onclick="window.open('https://vk.com/id{{vk_id}}');"
