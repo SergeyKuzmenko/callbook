@@ -161,3 +161,9 @@ function close_window() {
     $('#informations').css('display', 'none');
     $('#result').css('display', '');
 }
+
+function imgError(image) {
+    image.onerror = "";
+    image.src = "../image/avatar_icon.png";
+    return true;
+}

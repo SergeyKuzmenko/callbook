@@ -185,7 +185,7 @@ $app->group('/api', function () use ($app) {
 );
 
     $app->get('/getPic/:id', function ($id) use ($app) {
-        $app->response->headers->set('Content-Type', 'image/png'); //image/jpeg
+        //$app->response->headers->set('Content-Type', 'image/png'); //image/jpeg
         if (file_exists(FOLDER_USER_PIC . (int) $id . '.jpg')) {
 
             $dateCreateFile = date("d-m-Y H:i:s", filectime(FOLDER_USER_PIC . (int) $id . '.jpg'));
@@ -226,8 +226,12 @@ $app->group('/api', function () use ($app) {
                 $pic = readfile(FOLDER_USER_PIC . (int) $id . '.jpg');
                 echo $pic;
             } catch (Exception $e) {
-                $pic = readfile(FOLDER_IMAGES . 'avatar_icon.png');
-                print($pic);
+                //$pic = file_get_contents(FOLDER_IMAGES . 'avatar_icon.png');
+                //print($pic);
+                $image = file_get_contents(FOLDER_IMAGES . 'avatar_icon.png');
+				$finfo = new finfo(FILEINFO_MIME_TYPE);
+				$app->response->headers->set('Content-Type', 'image/png');
+				echo $image;
             }
         }
     }
